@@ -4,8 +4,6 @@
 Ce projet universitaire met en œuvre une architecture logicielle propre (MVC), une interface utilisateur moderne et une gestion rigoureuse des flux 
 asynchrones sans recours à une base de données externe.
 
----
-
 ## 🚀 1. Instructions de Lancement et Déploiement
 
 Suivez ces étapes pour configurer l'environnement, installer les dépendances et exécuter l'application sur votre machine.
