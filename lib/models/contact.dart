@@ -19,23 +19,27 @@ class Contact {
     this.localImagePath,
   });
 
-  // Constructeur "factory" pour créer un objet Contact à partir d'un format JSON (API)
+  // Constructeur "factory" adaptatif pour créer un objet Contact à partir d'un format JSON
   factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
-      // On récupère l'identifiant unique ou on en génère un par défaut
-      id: json['login']?['uuid'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
-      // Extraction sécurisée des données avec des valeurs par défaut si null
-      firstName: json['name']?['first'] ?? 'Sans prénom',
-      lastName: json['name']?['last'] ?? 'Sans nom',
+      // On récupère l'id direct ou dans le sous-objet login (Random User)
+      id: json['id'] ?? json['login']?['uuid'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
+
+      // Sécurité adaptative : on cherche d'abord la clé plate, sinon dans le sous-objet 'name'
+      firstName: json['firstName'] ?? json['name']?['first'] ?? 'Sans prénom',
+      lastName: json['lastName'] ?? json['name']?['last'] ?? 'Sans nom',
+
       email: json['email'] ?? 'Pas d\'email',
       phone: json['phone'] ?? 'Pas de numéro',
-      // Image de profil fournie par l'API
-      imageUrl: json['picture']?['large'] ?? 'https://via.placeholder.com/150',
+
+      // On cherche l'imageUrl directe ou dans le sous-objet 'picture'
+      imageUrl: json['imageUrl'] ?? json['picture']?['large'] ?? 'https://via.placeholder.com/150',
+
+      localImagePath: json['localImagePath'],
     );
   }
 
   // Méthode copyWith pour créer une nouvelle instance en modifiant seulement certains champs
-  // Très utile pour mettre à jour un contact sans muter l'objet original
   Contact copyWith({
     String? firstName,
     String? lastName,
